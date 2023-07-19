@@ -1,16 +1,21 @@
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
+// const passportLocalMongoose = require('passport-local-mongoose');
+
 
 const UserSchema = new mongoose.Schema({
-  userName: { type: String, unique: true },
+  // userName: { type: String, unique: true },
   email: { type: String, unique: true },
-  password: String,
+  password: {type: String},
+  trackedLocations: {type: Array}
 });
 
 // Password hash middleware.
 
-UserSchema.pre("save", function save(next) {
+UserSchema.pre("save", async function save(next) {
+  console.log(`attempting save`)
   const user = this;
+  console.log(`user schema save: ${user}`)
   if (!user.isModified("password")) {
     return next();
   }
@@ -22,6 +27,7 @@ UserSchema.pre("save", function save(next) {
       if (err) {
         return next(err);
       }
+      console.log(`hashing and next step`)
       user.password = hash;
       next();
     });
