@@ -12,8 +12,8 @@ const UserSchema = new mongoose.Schema({
 
 // Password hash middleware.
 
-UserSchema.pre("save", async function save(next) {
-  console.log(`attempting save`)
+UserSchema.pre("save", function save(next) {
+  console.log(`attempting`)
   const user = this;
   console.log(`user schema save: ${user}`)
   if (!user.isModified("password")) {

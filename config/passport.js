@@ -7,7 +7,7 @@ module.exports =  async (passport) => {
   
   passport.use(
     new LocalStrategy({
-      usernameField: "email",
+      emailField: "email",
       passwordField: "password"
     }, async (email, password, done) => {
 
@@ -15,7 +15,6 @@ module.exports =  async (passport) => {
       try{
         console.log(`passport hit`)
         const user = await User.findOne({ email: email.toLowerCase() }).exec()
-        // console.log(user)
         if (!user) {
           console.log(`email ${email} not found`)
           return done(null, false, { msg: `Email ${email} not found.` });
