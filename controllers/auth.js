@@ -94,23 +94,11 @@ module.exports.EditTrackedLocations = async (req, res) => {
   
 }
 
-function updateArray(arrays, newArray) {
-  const exists = arrays.some(array => JSON.stringify(array) === JSON.stringify(newArray));
-
-  if (exists) {
-    console.log(`location already in array removing location`)
-    return arrays.filter(array => JSON.stringify(array) !== JSON.stringify(newArray));
-  } else {
-    console.log(`location not in array, adding location`)
-    return arrays.concat([newArray]);
-  }
-}
-
 module.exports.UpdateSendEmail = async (req, res) => {
   const token = req.cookies.token
   if (!token) {
     console.log(`no token`)
-    return res.json({ status: false })
+    return res.json({ status: false , message: "No token, not logged in"})
   }
   jwt.verify(token, process.env.JWT_SECRET, async (err, data) => {
     if (err) {
@@ -140,3 +128,16 @@ module.exports.UpdateSendEmail = async (req, res) => {
   })
   
 }
+
+function updateArray(arrays, newArray) {
+  const exists = arrays.some(array => JSON.stringify(array) === JSON.stringify(newArray));
+
+  if (exists) {
+    console.log(`location already in array removing location`)
+    return arrays.filter(array => JSON.stringify(array) !== JSON.stringify(newArray));
+  } else {
+    console.log(`location not in array, adding location`)
+    return arrays.concat([newArray]);
+  }
+}
+

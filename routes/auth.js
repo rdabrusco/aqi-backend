@@ -1,4 +1,4 @@
-const { Signup, Login, EditTrackedLocations } = require('../controllers/auth')
+const { Signup, Login, EditTrackedLocations, UpdateSendEmail } = require('../controllers/auth')
 const {userVerification} = require('../middleware/authentication')
 const router = require('express').Router()
 
