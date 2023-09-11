@@ -6,6 +6,7 @@ router.post('/signup', Signup)
 router.post('/login', Login)
 router.post('/', userVerification)
 router.put('/editTrackedLocations', EditTrackedLocations)
+router.put('/updateSendEmail', UpdateSendEmail)
 
 
 

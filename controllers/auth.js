@@ -105,3 +105,38 @@ function updateArray(arrays, newArray) {
     return arrays.concat([newArray]);
   }
 }
+
+module.exports.UpdateSendEmail = async (req, res) => {
+  const token = req.cookies.token
+  if (!token) {
+    console.log(`no token`)
+    return res.json({ status: false })
+  }
+  jwt.verify(token, process.env.JWT_SECRET, async (err, data) => {
+    if (err) {
+      console.log(`error in jwt`)
+     return res.json({ status: false })
+    } else {
+      try {
+        console.log(req.body)
+        const user = await User.findById(data.id)
+        if(!user){
+          console.log(`no user found`)
+          return res.json({message:'Not logged in/no user found' }) 
+        }
+        console.log(`flipping sendUser to ${!user.sendEmail}`)
+        await User.findOneAndUpdate(
+          { _id: data.id},
+          {
+            sendEmail: !user.sendEmail,
+          }
+        );
+        console.log("Updated sendEmail setting");
+        res.status(201).json({message: `Successfully updated sendEmail setting to ${!user.sendEmail}`, sendEmail: !user.sendEmail});
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  })
+  
+}
