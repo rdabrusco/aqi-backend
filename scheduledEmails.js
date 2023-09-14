@@ -10,7 +10,7 @@ require("dotenv").config({ path: "./config/.env" });
 // Define the cron schedule pattern (e.g., run every day at 3 AM)
 const schedulePattern = '0 7 * * *'; // This pattern represents 3 AM daily
 
-
+// init emailjs connection
 emailjs.init({
     publicKey: process.env.PUBLIC_EMAIL_KEY,
     privateKey: process.env.PRIVATE_EMAIL_KEY
@@ -21,7 +21,6 @@ const sendAllEmails = async () => {
   try{
     const users = await User.find({sendEmail: true})
     for(const user of users){
-        // console.log(user)
         const trackedData = await getAllTrackedData(user)
         console.log(trackedData)
         console.log(`sending email to ${user.email}`)
@@ -47,9 +46,7 @@ const sendAllEmails = async () => {
 async function getAllTrackedData(user) {
     let allTrackedData = []
           console.log(`testing getting all tracked data`)
-        //   console.log(user.trackedLocations)
           for(let location of user.trackedLocations){
-            //   console.log(location)
               try{
                 const response = await axios.get(`https://api.waqi.info/feed/geo:${location.lat};${location.lon}/?token=${process.env.AQI_API_TOKEN}`);
                 const data = response.data;

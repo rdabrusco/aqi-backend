@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const { createSecretToken } = require("../utils/secret");
-const emailjs = require('@emailjs/nodejs')
 const bcrypt = require("bcrypt");
 require("dotenv").config({ path: "./config/.env" });
 const jwt = require("jsonwebtoken");
