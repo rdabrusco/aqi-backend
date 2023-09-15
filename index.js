@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const path = require("path")
 
 
 // TODO: use nodemailer for email automation
@@ -37,6 +38,7 @@ app.use("/", authRoute);
 
 require('./scheduledEmails');
 
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
