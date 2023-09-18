@@ -4,9 +4,6 @@ const cors = require("cors");
 const path = require("path")
 
 
-// TODO: use nodemailer for email automation
-
-
 require("dotenv").config({ path: "./config/.env" });
 
 const cookieParser = require("cookie-parser");
@@ -25,7 +22,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: ["http://localhost:8080", "http://localhost:3000"],
+    origin: ["https://aqi-checker.cyclic.app/", "https://busy-fish-gown.cyclic.app", "http://localhost:3000"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -34,7 +31,12 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../frontend', 'build')));
+app.use(express.static(path.join(__dirname, '../build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
 
 
 app.use("/", authRoute);
